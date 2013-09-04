@@ -1,0 +1,12 @@
+#config/config.yml
+defaults: &defaults
+  app_name: "TraApi"
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
