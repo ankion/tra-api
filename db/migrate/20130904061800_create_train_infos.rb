@@ -12,7 +12,7 @@ class CreateTrainInfos < ActiveRecord::Migration
       t.string :package
       t.string :route
       t.string :train
-      t.string :type
+      t.string :train_type
       t.timestamps
     end
     add_index :train_infos, :tai_train_list_id

@@ -31,6 +31,9 @@ group :assets do
   gem "compass-rails", :git => "git@github.com:Compass/compass-rails.git", :branch => "rails4"
 end
 
+gem 'nokogiri'
+gem 'rubyzip'
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 

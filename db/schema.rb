@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 20130904063340) do
     t.string   "package"
     t.string   "route"
     t.string   "train"
-    t.string   "type"
+    t.string   "train_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
