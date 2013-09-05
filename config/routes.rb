@@ -1,4 +1,10 @@
 TraApi::Application.routes.draw do
+  namespace :api, defaults: { format: 'json' } do
+    namespace :v1 do
+      get "train/:id" => "train#show"
+      get "station/:dep/:arr" => "station#show"
+    end
+  end
   devise_for :users
   root :to => 'high_voltage/pages#show', :id => 'welcome'
   # The priority is based upon order of creation: first created -> highest priority.
