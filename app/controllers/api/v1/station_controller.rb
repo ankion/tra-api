@@ -1,5 +1,5 @@
 class Api::V1::StationController < ApplicationController
-  #before_filter :authenticate_user!
+  before_filter :restrict_access
 
   respond_to :json
 
