@@ -35,7 +35,7 @@ gem "devise", "~> 3.1.0.rc2"
 gem 'simple_form', "~> 3.0.0.rc"
 
 group :assets do
-  gem "compass-rails", :git => "git@github.com:Compass/compass-rails.git", :branch => "rails4"
+  gem "compass-rails", :github => "Compass/compass-rails", :branch => "rails4"
 end
 
 gem 'nokogiri'
