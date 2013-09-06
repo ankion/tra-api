@@ -27,7 +27,10 @@ def download_and_sync(train)
               reader.each do |node|
                 next if node.node_type == Nokogiri::XML::Reader::TYPE_END_ELEMENT
                 if node.name == 'TrainInfo'
-                  next if node.attribute('CarClass').to_i > 1107
+                  if node.attribute('CarClass').to_i > 1107
+                    train_info = nil
+                    next
+                  end
                   print "*"
                   train_info = TrainInfo.create(
                     :tai_train_list_id => train.id,
