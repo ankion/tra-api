@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130905094951) do
+ActiveRecord::Schema.define(version: 20130906080814) do
 
   create_table "car_classes", force: true do |t|
     t.string   "no"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20130905094951) do
     t.string   "station"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "train_date"
   end
 
   add_index "time_infos", ["train_info_id"], name: "index_time_infos_on_train_info_id", using: :btree
@@ -65,6 +66,7 @@ ActiveRecord::Schema.define(version: 20130905094951) do
     t.string   "train_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "train_date"
   end
 
   add_index "train_infos", ["tai_train_list_id"], name: "index_train_infos_on_tai_train_list_id", using: :btree

@@ -4,7 +4,7 @@ require 'open-uri'
 require 'net/http'
 require 'tempfile'
 
-def download_and_sync(train)
+def download_and_sync(train, train_class)
   print "#{train.train_date}:syncing"
   train.status = :syncing
   train.save
@@ -27,13 +27,14 @@ def download_and_sync(train)
               reader.each do |node|
                 next if node.node_type == Nokogiri::XML::Reader::TYPE_END_ELEMENT
                 if node.name == 'TrainInfo'
-                  if node.attribute('CarClass').to_i > 1107
+                  if node.attribute('CarClass').to_i > train_class.to_i
                     train_info = nil
                     next
                   end
                   print "*"
                   train_info = TrainInfo.create(
                     :tai_train_list_id => train.id,
+                    :train_date => train.train_date,
                     :train => node.attribute('Train'),
                     :car_class => node.attribute('CarClass'),
                     :route => node.attribute('Route'),
@@ -52,6 +53,7 @@ def download_and_sync(train)
                   print "."
                   TimeInfo.create(
                     :train_info_id => train_info.id,
+                    :train_date => train.train_date,
                     :station => node.attribute('Station'),
                     :dep_time => node.attribute('DEPTime'),
                     :arr_time => node.attribute('ARRTime'),
@@ -71,8 +73,14 @@ def download_and_sync(train)
 end
 
 namespace :opendata do
-  desc "Run all sync task"
-  task :sync => :environment do
+  desc <<EOS
+Run all sync task
+train_class: 1107-Only Tze-Chiang
+             1130-Without local train
+             1150-All train
+EOS
+  task :sync, [:train_class] => :environment do |t, args|
+    train_class = args[:train_class] || 1107
     tasks = TaiTrainList.where(:status => nil)
     tasks.each do |task|
       download_and_sync(task)
@@ -81,13 +89,20 @@ namespace :opendata do
     puts "All success"
   end
 
-  desc "Sync one day data."
-  task :sync_one_day, [:date] => :environment do |t, args|
+  desc <<EOS
+Sync one day data.
+train_class: 1107-Only Tze-Chiang
+             1130-Without local train
+             1150-All train
+date: default today
+EOS
+  task :sync_one_day, [:train_class, :date] => :environment do |t, args|
+    train_class = args[:train_class] || 1107
     date = args[:date] || Time.now.strftime("%Y%m%d")
     tai_train_list = TaiTrainList.where(:train_date => date).first
     if tai_train_list
       if tai_train_list.status == nil
-        download_and_sync(tai_train_list)
+        download_and_sync(tai_train_list, train_class)
       end
     end
     puts "Success"
@@ -101,5 +116,12 @@ namespace :opendata do
         TaiTrainList.find_or_create_by(:train_date => s[1])
       end
     end
+  end
+
+  desc "Remove expire data."
+  task :remove_data => :environment do
+    TimeInfo.delete_all("train_date < #{Time.now.strftime("%Y%m%d")}")
+    TrainInfo.delete_all("train_date < #{Time.now.strftime("%Y%m%d")}")
+    TaiTrainList.delete_all("train_date < #{Time.now.strftime("%Y%m%d")}")
   end
 end
