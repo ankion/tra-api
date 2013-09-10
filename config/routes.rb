@@ -6,6 +6,7 @@ TraApi::Application.routes.draw do
     end
   end
   devise_for :users
+  get 'document' => 'high_voltage/pages#show', :id => 'document'
   root :to => 'high_voltage/pages#show', :id => 'welcome'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
