@@ -83,7 +83,7 @@ EOS
     train_class = args[:train_class] || 1107
     tasks = TaiTrainList.where(:status => nil)
     tasks.each do |task|
-      download_and_sync(task)
+      download_and_sync(task, train_class)
       puts "Success"
     end
     puts "All success"
