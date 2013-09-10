@@ -1,6 +1,7 @@
 #config/config.yml
 defaults: &defaults
   app_name: "TraApi"
+  secret_key: ''
 
 development:
   <<: *defaults
