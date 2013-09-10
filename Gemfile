@@ -9,7 +9,8 @@ group :development, :test do
   gem 'mysql2'
 end
 group :production do
-  gem 'pg'
+#  gem 'pg'
+  gem 'mysql2'
   gem 'rails_12factor'
 end
 
@@ -40,6 +41,7 @@ end
 
 gem 'nokogiri'
 gem 'rubyzip'
+gem 'capistrano'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
