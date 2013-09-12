@@ -73,12 +73,12 @@ def download_and_sync(train, train_class)
 end
 
 namespace :opendata do
-  desc <<EOS
-Run all sync task
-train_class: 1107-Only Tze-Chiang
-             1130-Without local train
-             1150-All train
-EOS
+  desc <<-EOS
+  Run all sync task
+  train_class: 1107-Only Tze-Chiang
+               1130-Without local train
+               1150-All train
+  EOS
   task :sync, [:train_class] => :environment do |t, args|
     train_class = args[:train_class] || 1107
     tasks = TaiTrainList.where(:status => nil)
@@ -89,13 +89,13 @@ EOS
     puts "All success"
   end
 
-  desc <<EOS
-Sync one day data.
-train_class: 1107-Only Tze-Chiang
-             1130-Without local train
-             1150-All train
-date: default today
-EOS
+  desc <<-EOS
+  Sync one day data.
+  train_class: 1107-Only Tze-Chiang
+               1130-Without local train
+               1150-All train
+  date: default today
+  EOS
   task :sync_one_day, [:train_class, :date] => :environment do |t, args|
     train_class = args[:train_class] || 1107
     date = args[:date] || Time.now.strftime("%Y%m%d")
@@ -113,6 +113,8 @@ EOS
     html = Nokogiri::HTML(open("http://163.29.3.98/xml/"))
     html.css('a').each do |link|
       />(\d{8})\.zip/.match(link.to_s) do |s|
+        next if s[1].to_i < Time.now.strftime("%Y%m%d").to_i
+        break if s[1].to_i > (Time.now + 20.day).strftime("%Y%m%d").to_i
         TaiTrainList.find_or_create_by(:train_date => s[1])
       end
     end
