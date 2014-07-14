@@ -8,6 +8,7 @@
             <a href="#api-v1">API V1</a>
             <ul class="nav">
               <li><a href="#api-v1-train">Train</a></li>
+              <li><a href="#api-v1-station_info">Station Information</a></li>
               <li><a href="#api-v1-station">Station</a></li>
             </ul>
           </li>
@@ -38,12 +39,20 @@
           <h4>train_no</h4>
           <p>車次</p>
         </p>
+        <h2 id="api-v1-station_info">Station Information</h2>
+        <p>
+          <p>查詢車站資訊</p>
+          <h3>Resource URL</h3>
+          <p>/api/v1/station_info</p>
+        </p>
         <h2 id="api-v1-station">Station</h2>
         <p>
           <p>利用車站查詢班次</p>
           <h3>Resource URL</h3>
-          <p>/api/v1/station/:depart/:arrive</p>
+          <p>/api/v1/station/:train_date/:depart/:arrive</p>
           <h3>Parameters</h3>
+          <h4>train_date</h4>
+          <p>乘車日期。格式 YYYYMMDD</p>
           <h4>depart</h4>
           <p>出發車站</p>
           <h4>arrive</h4>

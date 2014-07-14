@@ -2,7 +2,7 @@ TraApi::Application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
       get "train/:id" => "train#show"
-      get "station/:dep/:arr" => "station#show"
+      get "station/:date/:dep/:arr" => "station#show"
       get "station_info" => "station_info#show"
     end
   end
