@@ -5,12 +5,10 @@ ruby "2.0.0"
 gem 'rails', '4.0.0'
 
 # Use mysql as the database for Active Record
-group :development, :test do
-  gem 'mysql2'
-end
+gem 'mysql2'
+
 group :production do
 #  gem 'pg'
-  gem 'mysql2'
   gem 'rails_12factor'
 end
 
@@ -36,7 +34,7 @@ gem "devise", "~> 3.1.0.rc2"
 gem 'simple_form', "~> 3.0.0.rc"
 
 group :assets do
-  gem "compass-rails", :github => "Compass/compass-rails", :branch => "rails4"
+  gem "compass-rails"
 end
 
 gem 'nokogiri'

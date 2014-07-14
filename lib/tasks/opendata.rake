@@ -8,6 +8,8 @@ def download_and_sync(train, train_class)
   print "#{train.train_date}:syncing"
   train.status = :syncing
   train.save
+  TimeInfo.delete_all("train_date = #{train.train_date}")
+  TrainInfo.delete_all("train_date = #{train.train_date}")
   file = Tempfile.new('opendata')
   get_uri = URI("http://163.29.3.98/xml/#{train.train_date}.zip")
   Net::HTTP.start(get_uri.host, get_uri.port) do |get_http|
@@ -111,12 +113,10 @@ namespace :opendata do
   desc "Add sync task."
   task :add_sync_task => :environment do
     html = Nokogiri::HTML(open("http://163.29.3.98/xml/"))
-    html.css('a').each do |link|
-      />(\d{8})\.zip/.match(link.to_s) do |s|
-        next if s[1].to_i < Time.now.strftime("%Y%m%d").to_i
-        break if s[1].to_i > (Time.now + 20.day).strftime("%Y%m%d").to_i
-        TaiTrainList.find_or_create_by(:train_date => s[1])
-      end
+    links = html.to_s.scan(/(\d+) <a href="\/xml\/(\d{8}).zip"/)
+    links.each do |link|
+      next if link[1].to_i < Time.now.strftime("%Y%m%d").to_i
+      TaiTrainList.find_or_create_by(:train_date => link[1], :checksum => link[0])
     end
   end
 

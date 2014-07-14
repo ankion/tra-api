@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130906080814) do
+ActiveRecord::Schema.define(version: 20140714020457) do
 
   create_table "car_classes", force: true do |t|
     t.string   "no"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20130906080814) do
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "checksum"
   end
 
   create_table "time_infos", force: true do |t|
