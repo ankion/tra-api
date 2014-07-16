@@ -19,7 +19,10 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 1.day, :at => '5:30 am' do
+every 1.day, :at => '4:30 am' do
   rake "opendata:add_sync_task"
+end
+
+every 1.day, :at => '5:30 am' do
   rake "opendata:sync"
 end
